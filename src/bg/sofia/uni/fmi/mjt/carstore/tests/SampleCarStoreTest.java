@@ -11,9 +11,11 @@ import org.junit.Test;
 import bg.sofia.uni.fmi.mjt.carstore.CarStore;
 import bg.sofia.uni.fmi.mjt.carstore.car.Car;
 import bg.sofia.uni.fmi.mjt.carstore.car.OrdinaryCar;
+import bg.sofia.uni.fmi.mjt.carstore.comparators.CustomComparator;
 import bg.sofia.uni.fmi.mjt.carstore.enums.EngineType;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Model;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Region;
+import bg.sofia.uni.fmi.mjt.carstore.exceptions.CarNotFoundException;
 
 public class SampleCarStoreTest {
 
@@ -72,6 +74,11 @@ public class SampleCarStoreTest {
         carStore.add(one);
         carStore.add(two);
 
-        assertEquals(one, carStore.getCarByRegistrationNumber(one.getRegistrationNumber()));
+        try {
+            assertEquals(one, carStore.getCarByRegistrationNumber(one.getRegistrationNumber()));
+        } catch (CarNotFoundException e) {
+            e.printStackTrace();
+            e.getCause();
+        }
     }
 }
