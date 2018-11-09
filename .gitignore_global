@@ -1,0 +1,10 @@
+target/**
+*.class
+.project
+.metadata
+bin/**
+tmp/**
+.classpath
+.gitignore
+.settings/
+*javaw_*.log
