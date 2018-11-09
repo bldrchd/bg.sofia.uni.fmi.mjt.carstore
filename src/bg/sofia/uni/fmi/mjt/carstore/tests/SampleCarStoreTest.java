@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import bg.sofia.uni.fmi.mjt.carstore.CarStore;
+import bg.sofia.uni.fmi.mjt.carstore.Registration;
 import bg.sofia.uni.fmi.mjt.carstore.car.Car;
 import bg.sofia.uni.fmi.mjt.carstore.car.OrdinaryCar;
 import bg.sofia.uni.fmi.mjt.carstore.comparators.CustomComparator;
@@ -80,5 +81,13 @@ public class SampleCarStoreTest {
             e.printStackTrace();
             e.getCause();
         }
+    }
+    @Test
+    public void testGenerateRegNumber() {
+        Registration reg = new Registration();
+     //   String registration = reg.generateRegistrationNumber(Region.SOFIA);
+        String expected = "CB1001";
+     //   String actual = registration.substring(0, 5);
+      //  assertEquals(expected, actual);
     }
 }

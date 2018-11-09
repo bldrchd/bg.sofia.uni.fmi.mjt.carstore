@@ -14,19 +14,22 @@ import bg.sofia.uni.fmi.mjt.carstore.exceptions.CarNotFoundException;
 
 public class CarStore {
     
-    public static HashSet<String> registrationNumbers = null;
-    public static HashSet<Car> cars_store = null; //TODO rename
+    public static HashSet<Registration> registrationNumbers = null;
+    public static HashSet<Car> carsStore = null;
+    
     
     public CarStore(){
-        registrationNumbers = new HashSet<String>();
-        cars_store = new HashSet<Car>();
+        registrationNumbers = new HashSet<Registration>();
+        carsStore = new HashSet<Car>();
+    
     }
+
     /**
      * Adds the specified car in the store.
      * @return true if the car was added successfully to the store
      */
      public boolean add(Car car) {
-         return cars_store.add(car);
+         return carsStore.add(car);
      }
 
      /**
@@ -34,7 +37,7 @@ public class CarStore {
      * @return true if the store cars are changed after the execution (i.e. at least one new car is added to the store)
      */
      public boolean addAll(Collection<Car> cars) {
-         return cars_store.addAll(cars);
+         return carsStore.addAll(cars);
      }
 
      /**
@@ -42,7 +45,7 @@ public class CarStore {
      * @return true if the car is successfully removed from the store
      */
      public boolean remove(Car car) {
-         return cars_store.remove(car);
+         return carsStore.remove(car);
      }
 
      /**
@@ -52,7 +55,7 @@ public class CarStore {
      public Collection<Car> getCarsByModel(Model model) {
          Comparator<Car> ccy = new ComparatorByYear();
          ArrayList<Car> byModel = new ArrayList<Car>();
-         for (Car car : cars_store){
+         for (Car car : carsStore){
             if (car.getModel().equals(model)) {
                 byModel.add(car);
             }
@@ -66,7 +69,7 @@ public class CarStore {
      * @throws CarNotFoundException if a car with this registration number is not found in the store
      **/
      public Car getCarByRegistrationNumber(String registrationNumber) throws CarNotFoundException {
-         for (Car car : cars_store) {
+         for (Car car : carsStore) {
              if (car.getRegistrationNumber().equals(registrationNumber))
                  return car;
          }
@@ -79,7 +82,7 @@ public class CarStore {
      public Collection<Car> getCars() {
          Comparator<Car> defaultComparator = new DefaultComparator();
          ArrayList<Car> cars = new ArrayList<Car>();
-         cars.addAll(cars_store);
+         cars.addAll(carsStore);
          Collections.sort(cars, defaultComparator);
        return cars;
      }
@@ -88,7 +91,7 @@ public class CarStore {
      */
      public Collection<Car> getCars(Comparator<Car> comparator) {
          ArrayList<Car> cars = new ArrayList<Car>();
-         cars.addAll(cars_store);
+         cars.addAll(carsStore);
          Collections.sort(cars, comparator);
        return cars;
      }
@@ -99,7 +102,7 @@ public class CarStore {
      */
      public Collection<Car> getCars(Comparator<Car> comparator, boolean isReversed) { //TODO check
          ArrayList<Car> cars = new ArrayList<Car>();
-         cars.addAll(cars_store);
+         cars.addAll(carsStore);
          Collections.sort(cars, comparator);
          if (isReversed) {
              Collections.sort(cars, Collections.reverseOrder());
@@ -112,7 +115,7 @@ public class CarStore {
      * Returns the total number of cars in the store.
      */
      public int getNumberOfCars() {
-       return cars_store.size();
+       return carsStore.size();
      }
 
      /**
@@ -120,7 +123,7 @@ public class CarStore {
      */
      public int getTotalPriceForCars() {
          int sum = 0;
-         for (Car car : cars_store) {
+         for (Car car : carsStore) {
              sum += car.getPrice();
          }
        return sum;

@@ -10,6 +10,7 @@ public class SportCar implements Car {
     private int price = 0;
     private EngineType engineType=null;
     private Region region=null;
+    private String registrationNum = null;
     
     public SportCar(Model model, int year, int price, EngineType engineType, Region region) {
         setModel(model);
@@ -17,7 +18,8 @@ public class SportCar implements Car {
         setPrice(price);
         setEngineType(engineType);
         setRegion(region);
-        getRegistrationNumber();
+        setRegistrationNumber(null);
+        
     }
     @Override
     public int getYear() {
@@ -52,7 +54,10 @@ public class SportCar implements Car {
     }
     @Override
     public String getRegistrationNumber() {
-        return null;
+        return registrationNum ;
+    }
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNum = registrationNumber;
     }
     public Region getRegion() {
         return region;

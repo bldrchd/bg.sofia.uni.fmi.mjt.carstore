@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.carstore.car;
 
+
+import bg.sofia.uni.fmi.mjt.carstore.Registration;
 import bg.sofia.uni.fmi.mjt.carstore.enums.EngineType;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Model;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Region;
@@ -11,15 +13,18 @@ public class OrdinaryCar implements Car {
     private int price = 0;
     private EngineType engineType=null;
     private Region region=null;
+    private String registrationNum = null;
+    private Registration reg = null;
 
     public OrdinaryCar(Model model, int year, int price, EngineType engineType, Region region){
+
         setModel(model);
         setYear(year);
         setPrice(price);
         setEngineType(engineType);
         setRegion(region);
-        getRegistrationNumber();
-        
+        reg = new Registration(region);
+        setRegistrationNumber(reg.toString()); 
     }
     @Override
     public int getYear() {
@@ -54,7 +59,10 @@ public class OrdinaryCar implements Car {
     }
     @Override
     public String getRegistrationNumber() {
-        return null;
+        return registrationNum;
+    }
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNum = registrationNumber;
     }
     public Region getRegion() {
         return region;
