@@ -25,12 +25,13 @@ public class OrdinaryCar implements Car {
         setRegion(region);
         reg = new Registration(region);
         setRegistrationNumber(reg.toString()); 
+        System.out.println("New Ordinary car with registration: " + reg.toString() + " was created.");
     }
     @Override
     public int getYear() {
         return this.year;
     }
-    public void setYear(int year) {
+    private void setYear(int year) {
         this.year = year;
     }
 
@@ -38,7 +39,7 @@ public class OrdinaryCar implements Car {
     public int getPrice() {
         return this.price;
     }
-    public void setPrice(int price) {
+    private void setPrice(int price) {
         this.price = price;
     }
 
@@ -46,7 +47,7 @@ public class OrdinaryCar implements Car {
     public Model getModel() {
         return this.model;
     }
-    public void setModel(Model model) {
+    private void setModel(Model model) {
         this.model = model;
     }
 
@@ -54,20 +55,20 @@ public class OrdinaryCar implements Car {
     public EngineType getEngineType() {
         return this.engineType;
     }
-    public void setEngineType(EngineType engineType) {
+    private void setEngineType(EngineType engineType) {
         this.engineType = engineType;
     }
     @Override
     public String getRegistrationNumber() {
         return registrationNum;
     }
-    public void setRegistrationNumber(String registrationNumber) {
+    private void setRegistrationNumber(String registrationNumber) {
         this.registrationNum = registrationNumber;
     }
     public Region getRegion() {
         return region;
     }
-    public void setRegion(Region region) {
+    private void setRegion(Region region) {
         this.region = region;
     }
 

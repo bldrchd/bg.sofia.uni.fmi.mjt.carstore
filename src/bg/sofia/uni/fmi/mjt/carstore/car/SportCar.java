@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.carstore.car;
 
+import bg.sofia.uni.fmi.mjt.carstore.CarStore;
+import bg.sofia.uni.fmi.mjt.carstore.Registration;
 import bg.sofia.uni.fmi.mjt.carstore.enums.EngineType;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Model;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Region;
@@ -11,6 +13,7 @@ public class SportCar implements Car {
     private EngineType engineType=null;
     private Region region=null;
     private String registrationNum = null;
+    private Registration reg = null;
     
     public SportCar(Model model, int year, int price, EngineType engineType, Region region) {
         setModel(model);
@@ -18,8 +21,10 @@ public class SportCar implements Car {
         setPrice(price);
         setEngineType(engineType);
         setRegion(region);
-        setRegistrationNumber(null);
-        
+        reg = new Registration(region);
+        setRegistrationNumber(reg.toString()); 
+        System.out.println("New Sports car with registration: " + reg.toString() + " was created.");
+        CarStore.registrationNumbers.add(reg);
     }
     @Override
     public int getYear() {

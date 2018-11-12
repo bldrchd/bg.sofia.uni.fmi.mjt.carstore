@@ -8,7 +8,8 @@ import bg.sofia.uni.fmi.mjt.carstore.exceptions.UnavailableNumberException;
 public class Registration {
     
     String prefix = null;
-    String sufix = null;
+    char sufix1;
+    char sufix2;
     public static final int START_REG_NUMBER = 1000;
     int number = 0;
     
@@ -17,17 +18,13 @@ public class Registration {
     }
     public Registration(Region region){
         this.prefix = Region.getPrefix(region);
-        this.sufix =sufixAppend();
+        this.sufix1 = charGenerator();
+        this.sufix2 = charGenerator();
         try {
             this.number = nextAvailableNumber(region);
         } catch (UnavailableNumberException e) {
             e.printStackTrace();
         }
-    }
-    private String sufixAppend() {
-        char char1 = charGenerator();
-        char char2 = charGenerator();
-        return (String.valueOf(char1)) + (String.valueOf(char2));
     }
     private char charGenerator() {
         Random r = new Random();
@@ -35,7 +32,7 @@ public class Registration {
         return c;
     }
     public String toString() {
-        return prefix + number + sufix;
+        return prefix + number + sufix1 + sufix2;
     }
     public int getRegNumber(){
         return this.number;
