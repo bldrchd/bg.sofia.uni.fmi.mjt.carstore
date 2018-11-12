@@ -18,7 +18,7 @@ public class SportCar implements Car {
     public SportCar(Model model, int year, int price, EngineType engineType, Region region) {
         setModel(model);
         setYear(year);
-        setPrice(price);
+        setPrice(price); 
         setEngineType(engineType);
         setRegion(region);
         reg = new Registration(region);

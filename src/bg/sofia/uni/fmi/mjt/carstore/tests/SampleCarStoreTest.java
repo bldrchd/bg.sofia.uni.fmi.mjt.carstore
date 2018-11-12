@@ -12,6 +12,7 @@ import bg.sofia.uni.fmi.mjt.carstore.CarStore;
 import bg.sofia.uni.fmi.mjt.carstore.Registration;
 import bg.sofia.uni.fmi.mjt.carstore.car.Car;
 import bg.sofia.uni.fmi.mjt.carstore.car.OrdinaryCar;
+import bg.sofia.uni.fmi.mjt.carstore.car.SportCar;
 import bg.sofia.uni.fmi.mjt.carstore.comparators.CustomComparator;
 import bg.sofia.uni.fmi.mjt.carstore.enums.EngineType;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Model;
@@ -75,7 +76,7 @@ public class SampleCarStoreTest {
         carStore.add(one);
         carStore.add(two);
 
-        try {
+        try { 
             assertEquals(one, carStore.getCarByRegistrationNumber(one.getRegistrationNumber()));
         } catch (CarNotFoundException e) {
             e.printStackTrace();
@@ -84,10 +85,50 @@ public class SampleCarStoreTest {
     }
     @Test
     public void testGenerateRegNumber() {
-        Registration reg = new Registration();
-     //   String registration = reg.generateRegistrationNumber(Region.SOFIA);
-        String expected = "CB1001";
-     //   String actual = registration.substring(0, 5);
-      //  assertEquals(expected, actual);
+        Registration reg = new Registration(Region.SOFIA);
+        String registration = reg.toString();
+        String expected = "CB1000"; 
+        String actual = registration.substring(0, 6);
+        assertEquals(expected, actual);
+        assertEquals(1000, reg.getRegNumber());
+        assertEquals("CB", reg.getPrefix());
+    } 
+    
+    @Test
+    public void testSportsCarCreation(){
+      Car oneFerrari = new SportCar(Model.FERRARI, 2017, 33333333, EngineType.GASOLINE, Region.VARNA); 
+      carStore.add(oneFerrari);
+      assertEquals(2017, oneFerrari.getYear());
+      assertEquals(EngineType.GASOLINE, oneFerrari.getEngineType());
+      assertEquals(33333333, oneFerrari.getPrice());
+      try {
+          Car car = carStore.getCarByRegistrationNumber(oneFerrari.getRegistrationNumber());
+          String reg = car.getRegistrationNumber();
+        assertEquals(reg, oneFerrari.getRegistrationNumber());
+    } catch (CarNotFoundException e) {
+        e.printStackTrace();
     }
-}
+      assertEquals(1, carStore.getCarsByModel(oneFerrari.getModel()).size());
+      Car twoFerrari = new SportCar(Model.FERRARI, 2000, 11111111, EngineType.DIESEL, Region.GABROVO);
+      carStore.add(twoFerrari);
+      assertEquals(44444444,carStore.getTotalPriceForCars()); 
+      assertEquals(2, carStore.getNumberOfCars()); 
+    }  
+    
+    @Test 
+    public void testMultipleCarsFromRegionAdd() {
+        int i=0;
+        while (i<10) {
+            Car car = new SportCar(Model.ALFA_ROMEO, 2005, EXPENSIVE_CAR_PRICE, EngineType.HYBRID, Region.RUSE);
+            carStore.add(car);
+            i++;
+        }
+        int allCarsAdded = carStore.getNumberOfCars();
+        assertEquals(10, allCarsAdded);
+        String model = carStore.getCars().iterator().next().getModel().toString();
+        String number = carStore.getCars().iterator().next().getRegistrationNumber().substring(1, 5);
+        assertEquals(Model.ALFA_ROMEO.toString(), model);
+        System.out.println("number "+ number + " model "+ model);
+        assertEquals(new String("1002"), number); 
+    }
+} 

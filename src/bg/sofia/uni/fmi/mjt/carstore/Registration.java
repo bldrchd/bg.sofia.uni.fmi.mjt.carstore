@@ -13,9 +13,6 @@ public class Registration {
     public static final int START_REG_NUMBER = 1000;
     int number = 0;
     
-    public Registration(){
-        
-    }
     public Registration(Region region){
         this.prefix = Region.getPrefix(region);
         this.sufix1 = charGenerator();
@@ -23,7 +20,7 @@ public class Registration {
         try {
             this.number = nextAvailableNumber(region);
         } catch (UnavailableNumberException e) {
-            e.printStackTrace();
+            e.printStackTrace(); 
         }
     }
     private char charGenerator() {
@@ -47,17 +44,17 @@ public class Registration {
         String reg = Region.getPrefix(region);
         ArrayList<Integer> available = new ArrayList<>();
            for (Registration r : CarStore.registrationNumbers){
-               if (r.getPrefix().equals(reg)) {
+               if (r.getPrefix().equals(reg)) { 
                    available.add(r.getRegNumber());
-               }
+               } 
            }
            int maxValue = 0;
            if (!available.isEmpty()) {
                maxValue = Collections.max(available);
-               if (Registration.isValidNumber(maxValue)) 
+               if (Registration.isValidNumber(maxValue))  
                    return maxValue+1;
-               throw new UnavailableNumberException("Not Available Reg Number " + maxValue ) ;
-           }
-           return maxValue = Registration.START_REG_NUMBER;
+               throw new UnavailableNumberException("Not Available Reg Number " + maxValue ) ; 
+           } else {
+           return maxValue = Registration.START_REG_NUMBER;}
     }
 }
