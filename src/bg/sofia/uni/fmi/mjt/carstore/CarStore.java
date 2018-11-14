@@ -25,7 +25,7 @@ public class CarStore {
     }
 
     /**
-     * Adds the specified car in the store.
+     * Adds the specified car in the store. 
      * @return true if the car was added successfully to the store
      */
      public boolean add(Car car) {

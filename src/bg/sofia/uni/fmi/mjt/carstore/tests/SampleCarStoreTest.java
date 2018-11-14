@@ -21,7 +21,7 @@ import bg.sofia.uni.fmi.mjt.carstore.exceptions.CarNotFoundException;
 
 public class SampleCarStoreTest {
 
-    private static final int CAR_NEW_YEAR = 2006;
+    private static final int CAR_NEW_YEAR = 2006; 
     private static final int CAR_MID_YEAR = 2003;
     private static final int CAR_OLD_YEAR = 2001;
 
