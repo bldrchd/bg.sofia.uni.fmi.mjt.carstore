@@ -38,7 +38,7 @@ public class Registration {
         return this.prefix;
     }
     public static boolean isValidNumber(int number){
-        return (number >= START_REG_NUMBER && number <=9999);
+        return (number >= START_REG_NUMBER && number <=9999); 
     }
     public int nextAvailableNumber(Region region) throws UnavailableNumberException {
         String reg = Region.getPrefix(region);
@@ -56,5 +56,5 @@ public class Registration {
                throw new UnavailableNumberException("Not Available Reg Number " + maxValue ) ; 
            } else {
            return maxValue = Registration.START_REG_NUMBER;}
-    }
+    } 
 }

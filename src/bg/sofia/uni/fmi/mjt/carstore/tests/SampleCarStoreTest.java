@@ -129,6 +129,6 @@ public class SampleCarStoreTest {
         String number = carStore.getCars().iterator().next().getRegistrationNumber().substring(1, 5);
         assertEquals(Model.ALFA_ROMEO.toString(), model);
         System.out.println("number "+ number + " model "+ model);
-        assertEquals(new String("1002"), number); 
+        assertEquals(new String("1001"), number);  
     }
-} 
+}  

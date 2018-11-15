@@ -24,13 +24,16 @@ public class CarStore {
     
     }
 
-    /**
+    /** 
      * Adds the specified car in the store. 
      * @return true if the car was added successfully to the store
      */
      public boolean add(Car car) {
+         if (carsStore.contains(car.getRegistrationNumber())) {
+             return false;
+         }
          return carsStore.add(car);
-     }
+     } //TODO - check existing
 
      /**
      * Adds all of the elements of the specified collection in the store.
@@ -44,7 +47,7 @@ public class CarStore {
      * Removes the specified car from the store.
      * @return true if the car is successfully removed from the store
      */
-     public boolean remove(Car car) {
+     public boolean remove(Car car) { 
          return carsStore.remove(car);
      }
 
