@@ -36,7 +36,6 @@ public abstract class Car {
 
     @Override
     public int hashCode() {
-        // TODO Auto-generated method stub
         return registrationNum.hashCode();
     }
 

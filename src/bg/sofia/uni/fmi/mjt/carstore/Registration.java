@@ -10,12 +10,12 @@ import bg.sofia.uni.fmi.mjt.carstore.exceptions.UnavailableNumberException;
 
 public class Registration {
 
-    String prefix = null;
-    char sufix1;
-    char sufix2;
+    private String prefix = null;
+    private char sufix1;
+    private char sufix2;
     public static final int START_REG_NUMBER = 1000;
-    int number = 0;
-    ArrayList<Integer> numbersBuffer = new ArrayList<>();
+    private int number = 0;
+    private ArrayList<Integer> numbersBuffer = new ArrayList<>();
     public static Map<String, ArrayList<Integer>> registrations = null;
 
     public Registration(Region region) throws UnavailableNumberException {
@@ -25,7 +25,6 @@ public class Registration {
         this.sufix2 = charGenerator();
         this.number = nextAvailableNumber(this.prefix);
         registrations.put(this.prefix, numbersBuffer);
-
     }
 
     private char charGenerator() {
@@ -46,11 +45,11 @@ public class Registration {
         return this.prefix;
     }
 
-    public static boolean isValidNumber(int number) {
+    private boolean isValidNumber(int number) {
         return (number >= START_REG_NUMBER && number <= 9999);
     }
 
-    public int nextAvailableNumber(String prefix) throws UnavailableNumberException {
+    private int nextAvailableNumber(String prefix) throws UnavailableNumberException {
         if (registrations.get(prefix) != null)
             numbersBuffer.addAll(registrations.get(prefix));
         if (!numbersBuffer.isEmpty()) {

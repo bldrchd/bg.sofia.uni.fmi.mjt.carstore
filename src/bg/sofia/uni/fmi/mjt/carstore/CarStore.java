@@ -4,27 +4,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
 
 import bg.sofia.uni.fmi.mjt.carstore.car.Car;
 import bg.sofia.uni.fmi.mjt.carstore.comparators.ComparatorByYear;
 import bg.sofia.uni.fmi.mjt.carstore.comparators.DefaultComparator;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Model;
-import bg.sofia.uni.fmi.mjt.carstore.enums.Region;
 import bg.sofia.uni.fmi.mjt.carstore.exceptions.CarNotFoundException;
 
 public class CarStore {
     
 
     public static HashSet<Car> carsRegister = null;
-    
-    
-    
+
     public CarStore(){
      //   registrationNumbers = new HashSet<Registration>();
         carsRegister = new HashSet<Car>();
