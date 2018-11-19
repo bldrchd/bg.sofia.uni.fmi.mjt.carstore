@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.mjt.carstore.Registration;
 import bg.sofia.uni.fmi.mjt.carstore.enums.EngineType;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Model;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Region;
+import bg.sofia.uni.fmi.mjt.carstore.exceptions.UnavailableNumberException;
 
 public abstract class Car {
 
@@ -14,12 +15,41 @@ public abstract class Car {
     protected Region region = null;
     protected String registrationNum = null;
     protected Registration reg = null;
+    
+    public Car(Model model, int year, int price, EngineType engineType, Region region) throws UnavailableNumberException{
+        setModel(model);
+        setYear(year);
+        setPrice(price);
+        setEngineType(engineType);
+        setRegion(region);
+        reg = new Registration(region);
+        setRegistration(reg);
+        setRegistrationNumber(reg.toString());
+    }
 
     /**
      * Returns the model of the car.
      */
     public Model getModel() {
         return this.model;
+    }
+
+    @Override
+    public int hashCode() {
+        // TODO Auto-generated method stub
+        return registrationNum.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !obj.getClass().isInstance(this))
+            return false;
+        Car c = (Car) obj;
+        if (this.model.equals(c.getModel()) && this.year == c.getYear() && this.region.equals(c.getRegion())
+                && this.engineType.equals(c.getEngineType()) && this.price == c.getPrice()
+                && this.registrationNum.equals(c.getRegistrationNumber()))
+            return super.equals(obj);
+        return false;
     }
 
     /**
@@ -79,5 +109,12 @@ public abstract class Car {
 
     void setRegion(Region region) {
         this.region = region;
+    }
+    private void setRegistration(Registration reg) {
+        this.reg = reg; 
+    }
+    
+    public Registration getRegistration(){
+        return this.reg;
     }
 }

@@ -18,10 +18,11 @@ import bg.sofia.uni.fmi.mjt.carstore.enums.EngineType;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Model;
 import bg.sofia.uni.fmi.mjt.carstore.enums.Region;
 import bg.sofia.uni.fmi.mjt.carstore.exceptions.CarNotFoundException;
+import bg.sofia.uni.fmi.mjt.carstore.exceptions.UnavailableNumberException;
 
 public class SampleCarStoreTest {
 
-    private static final int CAR_NEW_YEAR = 2006; 
+    private static final int CAR_NEW_YEAR = 2006;
     private static final int CAR_MID_YEAR = 2003;
     private static final int CAR_OLD_YEAR = 2001;
 
@@ -37,98 +38,130 @@ public class SampleCarStoreTest {
     }
 
     @Test
-    public void testIfGetCarsByModelReturnsCorrectCars() {
-        Car one = new OrdinaryCar(Model.AUDI, CAR_NEW_YEAR, EXPENSIVE_CAR_PRICE, EngineType.DIESEL, Region.BURGAS);
-        Car two = new OrdinaryCar(Model.BMW, CAR_MID_YEAR, CHEAP_CAR_PRICE, EngineType.ELECTRIC, Region.BURGAS);
-        Car three = new OrdinaryCar(Model.AUDI, CAR_OLD_YEAR, VERY_EXPENSIVE_CAR_PRICE, EngineType.GASOLINE, Region.BURGAS);
+    public void testIfGetCarsByModelReturnsCorrectCars() throws UnavailableNumberException {
+        Car one;
+        try {
+            one = new OrdinaryCar(Model.AUDI, CAR_NEW_YEAR, EXPENSIVE_CAR_PRICE, EngineType.DIESEL, Region.BURGAS);
+            Car two = new OrdinaryCar(Model.BMW, CAR_MID_YEAR, CHEAP_CAR_PRICE, EngineType.ELECTRIC, Region.BURGAS);
+            Car three = new OrdinaryCar(Model.AUDI, CAR_OLD_YEAR, VERY_EXPENSIVE_CAR_PRICE, EngineType.GASOLINE,
+                    Region.BURGAS);
 
-        carStore.add(one);
-        carStore.add(two);
-        carStore.add(three);
+            carStore.add(one);
+            carStore.add(two);
+            carStore.add(three);
+            Collection<Car> cars = carStore.getCarsByModel(Model.AUDI);
 
-        Collection<Car> cars = carStore.getCarsByModel(Model.AUDI);
+            Car[] expected = { three, one };
+            Car[] actual = cars.toArray(new Car[cars.size()]);
 
-        Car[] expected = { three, one };
-        Car[] actual = cars.toArray(new Car[cars.size()]);
-        assertArrayEquals(expected, actual);
-    }
+            assertArrayEquals(expected, actual);
 
-    @Test
-    public void testGetCarsWithComparatorInDefaultOrder() {
-        Car one = new OrdinaryCar(Model.AUDI, CAR_MID_YEAR, EXPENSIVE_CAR_PRICE, EngineType.DIESEL, Region.BURGAS);
-        Car two = new OrdinaryCar(Model.BMW, CAR_NEW_YEAR, VERY_EXPENSIVE_CAR_PRICE, EngineType.ELECTRIC, Region.BURGAS);
-        Car three = new OrdinaryCar(Model.AUDI, CAR_OLD_YEAR, CHEAP_CAR_PRICE, EngineType.ELECTRIC, Region.BURGAS);
-
-        carStore.add(one);
-        carStore.add(two);
-        carStore.add(three);
-        Collection<Car> cars = carStore.getCars(new CustomComparator(), false);
-
-        Car[] expected = { three, one, two };
-        Car[] actual = cars.toArray(new Car[cars.size()]);
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void testFindByRegistrationNumber() {
-        Car one = new OrdinaryCar(Model.AUDI, CAR_MID_YEAR, EXPENSIVE_CAR_PRICE, EngineType.DIESEL, Region.BURGAS);
-        Car two = new OrdinaryCar(Model.BMW, CAR_NEW_YEAR, VERY_EXPENSIVE_CAR_PRICE, EngineType.ELECTRIC, Region.BURGAS);
-        carStore.add(one);
-        carStore.add(two);
-
-        try { 
-            assertEquals(one, carStore.getCarByRegistrationNumber(one.getRegistrationNumber()));
-        } catch (CarNotFoundException e) {
+        } catch (UnavailableNumberException e) {
             e.printStackTrace();
-            e.getCause();
+        }
+
+    }
+
+    @Test
+    public void testGetCarsWithComparatorInDefaultOrder() throws UnavailableNumberException {
+        try {
+            Car one = new OrdinaryCar(Model.AUDI, CAR_MID_YEAR, EXPENSIVE_CAR_PRICE, EngineType.DIESEL, Region.BURGAS);
+            Car two = new OrdinaryCar(Model.BMW, CAR_NEW_YEAR, VERY_EXPENSIVE_CAR_PRICE, EngineType.ELECTRIC,
+                    Region.BURGAS);
+            Car three = new OrdinaryCar(Model.AUDI, CAR_OLD_YEAR, CHEAP_CAR_PRICE, EngineType.ELECTRIC, Region.BURGAS);
+
+            carStore.add(one);
+            carStore.add(two);
+            carStore.add(three);
+            Collection<Car> cars = carStore.getCars(new CustomComparator(), false);
+
+            Car[] expected = { three, one, two };
+            Car[] actual = cars.toArray(new Car[cars.size()]);
+            assertArrayEquals(expected, actual);
+
+        } catch (UnavailableNumberException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testFindByRegistrationNumber() throws UnavailableNumberException {
+        try {
+            Car one = new OrdinaryCar(Model.AUDI, CAR_MID_YEAR, EXPENSIVE_CAR_PRICE, EngineType.DIESEL, Region.BURGAS);
+            Car two = new OrdinaryCar(Model.BMW, CAR_NEW_YEAR, VERY_EXPENSIVE_CAR_PRICE, EngineType.ELECTRIC,
+                    Region.BURGAS);
+            carStore.add(one);
+            carStore.add(two);
+
+            try {
+                assertEquals(one, carStore.getCarByRegistrationNumber(one.getRegistrationNumber()));
+            } catch (CarNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        } catch (UnavailableNumberException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testGenerateRegNumber() throws UnavailableNumberException {
+        try {
+            Registration reg = new Registration(Region.SOFIA);
+            String registration = reg.toString();
+            String expected = "CB1000";
+            String actual = registration.substring(0, 6);
+            assertEquals(expected, actual);
+            assertEquals(1000, reg.getRegNumber());
+            assertEquals("CB", reg.getPrefix());
+        } catch (UnavailableNumberException e) {
+            e.printStackTrace();
         }
     }
+
     @Test
-    public void testGenerateRegNumber() {
-        Registration reg = new Registration(Region.SOFIA);
-        String registration = reg.toString();
-        String expected = "CB1000"; 
-        String actual = registration.substring(0, 6);
-        assertEquals(expected, actual);
-        assertEquals(1000, reg.getRegNumber());
-        assertEquals("CB", reg.getPrefix());
-    } 
-    
-    @Test
-    public void testSportsCarCreation(){
-      Car oneFerrari = new SportCar(Model.FERRARI, 2017, 33333333, EngineType.GASOLINE, Region.VARNA); 
-      carStore.add(oneFerrari);
-      assertEquals(2017, oneFerrari.getYear());
-      assertEquals(EngineType.GASOLINE, oneFerrari.getEngineType());
-      assertEquals(33333333, oneFerrari.getPrice());
-      try {
-          Car car = carStore.getCarByRegistrationNumber(oneFerrari.getRegistrationNumber());
-          String reg = car.getRegistrationNumber();
-        assertEquals(reg, oneFerrari.getRegistrationNumber());
-    } catch (CarNotFoundException e) {
-        e.printStackTrace();
-    }
-      assertEquals(1, carStore.getCarsByModel(oneFerrari.getModel()).size());
-      Car twoFerrari = new SportCar(Model.FERRARI, 2000, 11111111, EngineType.DIESEL, Region.GABROVO);
-      carStore.add(twoFerrari);
-      assertEquals(44444444,carStore.getTotalPriceForCars()); 
-      assertEquals(2, carStore.getNumberOfCars()); 
-    }  
-    
-    @Test 
-    public void testMultipleCarsFromRegionAdd() {
-        int i=0;
-        while (i<10) {
-            Car car = new SportCar(Model.ALFA_ROMEO, 2005, EXPENSIVE_CAR_PRICE, EngineType.HYBRID, Region.RUSE);
-            carStore.add(car);
-            i++;
+    public void testSportsCarCreation() throws CarNotFoundException, UnavailableNumberException {
+        try {
+            Car oneFerrari = new SportCar(Model.FERRARI, 2017, 33333333, EngineType.GASOLINE, Region.VARNA);
+            carStore.add(oneFerrari);
+            assertEquals(2017, oneFerrari.getYear());
+            assertEquals(EngineType.GASOLINE, oneFerrari.getEngineType());
+            assertEquals(33333333, oneFerrari.getPrice());
+            try {
+                Car car = carStore.getCarByRegistrationNumber(oneFerrari.getRegistrationNumber());
+                String reg = car.getRegistrationNumber();
+                assertEquals(reg, oneFerrari.getRegistrationNumber());
+            } catch (CarNotFoundException e) {
+                e.printStackTrace();
+            }
+            assertEquals(1, carStore.getCarsByModel(oneFerrari.getModel()).size());
+            Car twoFerrari = new SportCar(Model.FERRARI, 2000, 11111111, EngineType.DIESEL, Region.GABROVO);
+            carStore.add(twoFerrari);
+            assertEquals(44444444, carStore.getTotalPriceForCars());
+            assertEquals(2, carStore.getNumberOfCars());
+        } catch (UnavailableNumberException e) {
+            e.printStackTrace();
         }
-        int allCarsAdded = carStore.getNumberOfCars();
-        assertEquals(10, allCarsAdded);
-        String model = carStore.getCars().iterator().next().getModel().toString();
-        String number = carStore.getCars().iterator().next().getRegistrationNumber().substring(1, 5);
-        assertEquals(Model.ALFA_ROMEO.toString(), model);
-        System.out.println("number "+ number + " model "+ model);
-        assertEquals(new String("1001"), number);  
     }
-}  
+
+    @Test
+    public void testMultipleCarsFromRegionAdd() throws UnavailableNumberException {
+        try {
+            for (int i = 0; i < 10; i++) {
+                Car car = new SportCar(Model.ALFA_ROMEO, 2005, EXPENSIVE_CAR_PRICE, EngineType.HYBRID, Region.RUSE);
+                carStore.add(car);
+            }
+            int allCarsAdded = carStore.getNumberOfCars();
+            assertEquals(10, allCarsAdded);
+            String model = carStore.getCars().iterator().next().getModel().toString();
+            String number = carStore.getCars().iterator().next().getRegistrationNumber().substring(1, 5);
+            assertEquals(Model.ALFA_ROMEO.toString(), model);
+            System.out.println("number " + number + " model " + model);
+            assertEquals(new String("1000"), number);
+        } catch (UnavailableNumberException e) {
+            e.printStackTrace();
+        }
+    }
+}
